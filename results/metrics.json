@@ -1,0 +1,90 @@
+{
+  "status": "Measured full test evaluation",
+  "majority_class": "Pneumonia",
+  "baseline": {
+    "n": 624,
+    "accuracy": 0.625,
+    "balanced_accuracy": 0.5,
+    "precision_pneumonia": 0.625,
+    "recall_pneumonia": 1.0,
+    "f1_pneumonia": 0.7692307692307693,
+    "confusion_matrix": [
+      [
+        0,
+        234
+      ],
+      [
+        0,
+        390
+      ]
+    ],
+    "false_negatives": 0,
+    "false_positives": 234,
+    "errors": 234
+  },
+  "cnn_forced": {
+    "n": 624,
+    "accuracy": 0.8285256410256411,
+    "balanced_accuracy": 0.7756410256410257,
+    "precision_pneumonia": 0.7905544147843943,
+    "recall_pneumonia": 0.9871794871794872,
+    "f1_pneumonia": 0.8779931584948689,
+    "confusion_matrix": [
+      [
+        132,
+        102
+      ],
+      [
+        5,
+        385
+      ]
+    ],
+    "false_negatives": 5,
+    "false_positives": 102,
+    "errors": 107
+  },
+  "cnn_selective": {
+    "n_total": 624,
+    "n_automatic": 624,
+    "n_review": 0,
+    "coverage": 1.0,
+    "review_rate": 0.0,
+    "automatic_error_rate": 0.17147435897435898,
+    "automatic_errors_per_all_cases": 0.17147435897435898,
+    "abstained_normal": 0,
+    "abstained_pneumonia": 0,
+    "reference_by_decision_matrix": [
+      [
+        132,
+        102,
+        0
+      ],
+      [
+        5,
+        385,
+        0
+      ]
+    ],
+    "automatic_only": {
+      "n": 624,
+      "accuracy": 0.8285256410256411,
+      "balanced_accuracy": 0.7756410256410257,
+      "precision_pneumonia": 0.7905544147843943,
+      "recall_pneumonia": 0.9871794871794872,
+      "f1_pneumonia": 0.8779931584948689,
+      "confusion_matrix": [
+        [
+          132,
+          102
+        ],
+        [
+          5,
+          385
+        ]
+      ],
+      "false_negatives": 5,
+      "false_positives": 102,
+      "errors": 107
+    }
+  }
+}

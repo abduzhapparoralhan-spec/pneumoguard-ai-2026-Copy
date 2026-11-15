@@ -1,0 +1,6 @@
+id,kind,reference_label,forced_prediction,score,policy_decision
+test:1,False positive,Normal,Pneumonia,0.9999144077301025,Pneumonia
+test:9,False positive,Normal,Pneumonia,0.9972056746482849,Pneumonia
+test:28,False positive,Normal,Pneumonia,0.9094306230545044,Pneumonia
+test:30,False positive,Normal,Pneumonia,0.9940963983535767,Pneumonia
+test:38,False positive,Normal,Pneumonia,0.6046811938285828,Pneumonia

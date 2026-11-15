@@ -1,0 +1,19 @@
+{
+  "python": "3.13.18",
+  "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+  "device": "cpu",
+  "packages": {
+    "torch": "2.14.1+cpu",
+    "torchvision": "0.29.1+cpu",
+    "medmnist": "3.0.2",
+    "numpy": "2.4.6",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.6.1",
+    "matplotlib": "3.10.0",
+    "ipywidgets": "8.1.9",
+    "nbformat": "5.11.1",
+    "nbclient": "0.10.4"
+  },
+  "seed": 2026,
+  "dataset_npz_sha256": "e1792d3f03751cb101e99f19a63b3c1941436c988665f47853417b05be250cd8"
+}

@@ -1,0 +1,13 @@
+{
+  "created_at_utc": "2026-11-15T09:47:18.564333+00:00",
+  "selection_splits": [
+    "train",
+    "val"
+  ],
+  "test_used_for_selection": false,
+  "best_epoch": 20,
+  "best_val_loss": 0.09219373331782017,
+  "parameter_count": 55041,
+  "checkpoint_sha256": "66b825a4b1a216bdf67e237e1f08b84453dcbfa7bfd69f537d6f3562238243d1",
+  "policy_sha256": "99457ec2fa4e40c98343880ceecb4f382966c48d09b9b57932f453836703bcee"
+}
