@@ -8,13 +8,27 @@ Veritas AI International High School Hackathon 2026 · AI + Health
 
 PneumoGuard AI is an educational research prototype for **28×28 public pediatric chest X-ray benchmark images**. Its intended user is a hypothetical healthcare worker considering which images deserve additional review. The application accepts only public test-set indices. It does not accept private scans, identify patients, diagnose disease, or recommend treatment.
 
-## Start in Google Colab
+## Completed experiment — start here
+
+**The full Google Colab run is complete. The CNN achieved 82.85% accuracy on 624 test images. The abstention policy selected 100% coverage and did not improve performance.**
+
+The original results archive, [PneumoGuard_full_20261115T094604_549333Z.zip](PneumoGuard_full_20261115T094604_549333Z.zip), is preserved in this existing repository. All 17 archived files, including the trained checkpoint and three figures, are extracted byte for byte into [results/](results/README.md). No retraining or new test inference was performed for this documentation update.
+
+1. Read the [measured report](results/report.md) and the [concise competition write-up](docs/one_page_writeup.md).
+2. Review the [confusion matrices](results/figures/confusion_matrices.png), [training and validation curves](results/figures/training_and_validation_tradeoff.png), and [five actual mistakes](results/figures/failure_examples.png).
+3. Use the [measured demo narration](docs/demo_script.md) and [submission checklist](docs/submission_checklist.md) to prepare the manual submission.
+
+You do not need to run the notebook again to inspect or present these results. The Russian [student guide](docs/student_guide_ru.md) explains how to continue this existing project.
+
+## Optional independent reproduction in Google Colab
+
+These steps describe a new training run for someone independently reproducing the experiment. They are not required to review the archived run and were not executed during this update. **Runtime → Run all trains the model again.** Preserve the existing results.
 
 1. Download this repository and locate [notebooks/PneumoGuard_AI.ipynb](notebooks/PneumoGuard_AI.ipynb).
 2. Open [Google Colab](https://colab.research.google.com/) → **File → Upload notebook** → select that file. Save a copy to Drive.
 3. Leave `SMOKE_TEST = False` and choose **Runtime → Run all**. CPU is supported. No API key or repository clone is needed: the notebook includes its own implementation.
 4. Wait for training, evaluation, figures and the benchmark explorer. Click **Run model** for a selected public test index.
-5. Click **Download results ZIP**, then **File → Download → Download .ipynb**. Extract the full-run results into `results/` and update the submission text from the generated report.
+5. Click **Download results ZIP**, then **File → Download → Download .ipynb**. Keep any independently reproduced run in a separate directory; do not overwrite the archived `results/` or tune settings against its test outcomes.
 
 Every notebook run creates a separate timestamped folder in `results/colab_run/`. Optional smoke mode uses smaller, separate split subsets and two epochs; it is **not a reportable full evaluation**. Download outputs before Colab disconnects. Static notebook previews may show saved results but require execution to restore interactive widgets.
 
@@ -38,10 +52,12 @@ The experiment connects a small CNN, a validation-selected abstention policy, ac
 | Training | Only training images update model weights |
 | Validation | Checkpoint selection and abstention-threshold selection |
 | Test | Final evaluation after weights and thresholds are frozen |
-| Class counts | Generated from loaded arrays in `split_manifest.json`; not inferred from overall accuracy |
+| Class counts (Normal / Pneumonia) | Train 1,214 / 3,494; validation 135 / 389; test 234 / 390; from [split_manifest.json](results/split_manifest.json) |
 | Dataset license | PneumoniaMNIST CC BY 4.0; source Mendeley dataset CC BY 4.0 |
 
 The official archive contains all three splits, but the training stage accesses only training and validation arrays. It neither pools nor re-splits the benchmark. Fixed scaling divides pixels by 255 and fits no preprocessing on test data. Split IDs, image hashes, cross-split byte-identical image overlaps, archive SHA-256 and package versions are recorded. No claim of verified patient-level independence is made: patient IDs are not supplied. The source annotations are benchmark reference labels, not independent clinical confirmation.
+
+**Observed overlap:** the archived manifest records **8 distinct shared hashes of byte-identical images between training and validation**, and **0 between training–test and validation–test**. This counts shared unique image hashes, not duplicate pairs. Because validation selects the checkpoint and policy, this overlap can make validation performance optimistic. The official splits were retained; no deduplication or retraining was performed. These overlap counts are recorded by the original run, not independently recomputed from source images during this update.
 
 The source is Kermany et al.'s pediatric chest X-ray dataset. Low resolution, restricted source population, class imbalance, possible dataset artifacts and limited sample size constrain generalization. Do not apply conclusions to adults, other hospitals, devices or private scans.
 
@@ -73,11 +89,33 @@ The fixed grid uses `low ∈ {0, 0.05, …, 0.5}` and `high ∈ {0.5, 0.55, …,
 
 The 5% target is an experimental design choice, **not a safety guarantee or calibrated risk limit**. Scores are uncalibrated sigmoid outputs. Checkpoint and policy reuse the validation split, so validation performance may be optimistic. Thresholds and checkpoint are saved and hashed before opening the test split. Evaluation verifies these hashes and reloads the frozen checkpoint. A policy that fails to improve test performance is retained and reported honestly.
 
-## Evaluation status
+## Measured results
 
-**Not yet evaluated.** At initial verification, the cloud environment blocked the official Zenodo download. No public-dataset training, test performance or clinical effectiveness is claimed at this stage. Run the notebook in Colab or enable the official dataset host to populate the measured outputs.
+The archived run used seed **2026**, full mode (`smoke: false`), all **20 epochs**, and the lowest-validation-loss checkpoint at **epoch 20**. It evaluated **624 test images**: 234 Normal and 390 Pneumonia. See the original [report](results/report.md), machine-readable [metrics](results/metrics.json), and [all test predictions](results/test_predictions.csv).
 
-No accuracy percentages or test confusion matrices are placeholders. After a successful full run, [results/report.md](results/report.md) is the authoritative measured report. It includes:
+| Method | Evaluated images | Coverage | Accuracy | Balanced accuracy | Pneumonia precision | Pneumonia recall | Pneumonia F1 | FN | FP |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Majority baseline (always Pneumonia) | 624 | 100% | 62.50% | 50.00% | 62.50% | 100.00% | 76.92% | 0 | 234 |
+| CNN, forced choice | 624 | 100% | **82.85%** | 77.56% | 79.06% | 98.72% | 87.80% | 5 | 102 |
+| CNN, abstention policy | 624 accepted | **100%** | **82.85%** | 77.56% | 79.06% | 98.72% | 87.80% | 5 | 102 |
+
+The CNN made **517 correct predictions and 107 errors**. Rows are reference Normal/Pneumonia and columns predicted Normal/Pneumonia: `[[132, 102], [5, 385]]`.
+
+**Abstention did not improve the test result.** Validation selected `low = high = 0.5`, so the review interval is empty. All **624/624** images received automatic decisions; **0/624** went to review (including 0 Normal and 0 Pneumonia). The accepted-image and whole-test automatic error rates both equal **107/624 = 17.15%**, exactly the forced-choice error rate. In this run the accepted subset is the whole test set, so its selective classification metrics equal the complete-test metrics. No manual-review benefit was demonstrated.
+
+The selected policy's validation error was **18/524 = 3.44%**, below the experimental 5% target, but its test error was **17.15%**. The validation target did not guarantee test performance; these results do not establish why the gap occurred. The validation reuse and observed image overlap are limitations, alongside differences between the benchmark splits. Thresholds were not adjusted after seeing test results.
+
+![Measured confusion matrices and complete review workload](results/figures/confusion_matrices.png)
+
+![Archived training history and validation coverage–error grid; the star is a validation result](results/figures/training_and_validation_tradeoff.png)
+
+The trade-off graph shows **validation**, not test error. The checkpoint and selected policy are preserved unchanged.
+
+![First five actual forced-choice mistakes in test-index order](results/figures/failure_examples.png)
+
+The five examples are all false positives; they are the first mistakes by test index, not a representative sample of all errors. For `test:1`, the reference is Normal, while the CNN and policy favor Pneumonia with score **0.9999144**. A high uncalibrated score can still disagree with the reference. Images are enlarged 28×28 PneumoniaMNIST derivatives of Kermany et al.'s source data, **CC BY 4.0**; see [attribution and sources](docs/sources.md). No clinical explanation of the disagreement is inferred.
+
+The archived evidence includes:
 
 - Majority baseline and forced CNN: accuracy, balanced accuracy, Pneumonia precision/recall/F1, confusion matrix, FN and FP on **all test images**.
 - Abstaining CNN: the same classification metrics on **accepted images only**, with evaluated sample count and coverage.
@@ -85,13 +123,13 @@ No accuracy percentages or test confusion matrices are placeholders. After a suc
 - A complete 2×3 matrix (reference × Normal/Pneumonia/Review) and accepted-only 2×2 matrix.
 - Training curves, the validation coverage–error grid, and at least five actual mistakes when available. Fewer mistakes are supplemented by correct examples closest to the boundary, explicitly labeled.
 
-Accepted-only accuracy and recall are not complete-test accuracy and recall. Reviewed examples are neither correct automatic classifications nor automatic FN/FP. Undefined denominators are **N/A**, not zero or perfect performance. Report the coverage whenever presenting selective metrics. A reduced automatic error burden can partly reflect making fewer decisions.
+When coverage is below 100%, accepted-only accuracy and recall do not describe the complete test set. Reviewed examples are neither correct automatic classifications nor automatic FN/FP. Undefined denominators are **N/A**, not zero or perfect performance. Report the coverage whenever presenting selective metrics. A reduced automatic error burden can partly reflect making fewer decisions.
 
 Failure analysis explains observed labels, scores and policy decisions. It does not invent medical explanations for disagreement from 28×28 images. One seed on one small benchmark cannot demonstrate clinical effectiveness or guarantee future error rates. No calibration or external-site evaluation is claimed.
 
-## Reproduce locally (optional)
+## Reproduce locally (optional new training)
 
-The Colab instructions above require no programming knowledge. For a Python user, from this repository:
+For a Python user independently reproducing the experiment, from this repository (the last two commands train new models; they were not run for this update):
 
 ```bash
 python -m venv .venv
@@ -132,16 +170,18 @@ docs/model_explained.md          architecture and FN/FP explanations
 docs/student_guide_ru.md         noncoding student's instructions
 docs/submission_checklist.md     manual submission steps
 docs/sources.md                  citations, licenses and tools
-results/                        measured outputs after real evaluation
+results/                        preserved full-run measurements, weights, figures and provenance
 ```
 
 A completed run writes `best_model.pt`, `policy.json`, `config.json`, `training_manifest.json`, `training_history.csv`, `validation_predictions.csv`, `validation_policy_grid.csv`, `test_predictions.csv`, `metrics.json`, `comparison.csv`, `split_manifest.json`, `environment.json`, `report.md`, `failure_examples.csv` and `figures/*.png`. Downloaded data, virtual environments and smoke outputs should not be uploaded to GitHub.
 
+[results/provenance.json](results/provenance.json) records the source archive, its SHA-256, the source repository commit and each extracted file's SHA-256. The checkpoint and policy hashes match the original training manifest. Metrics were independently recomputed from the saved predictions; this is an artifact audit, not an independent rerun of training or inference. The archive contains neither the executed notebook nor a training-time source-code commit. The original [pneumoguard-ai-2026.zip](pneumoguard-ai-2026.zip) is a historical prototype bundle without these measured results; use the current repository for the submission.
+
 ## Competition and originality
 
-The [official submission page](https://highschoolhackathon.org/briefs) was read during development. Its linked Google Drive project-brief PDF did not expose readable content in this environment; the supplied task brief therefore also governed implementation. Read the complete official PDF before submitting. The public page requires a viewable code/notebook link, write-up, track, team details and credits; it recommends a demo video up to two minutes. Verify current submission requirements and access to every link yourself.
+The [official submission page](https://highschoolhackathon.org/briefs) and [FAQ](https://highschoolhackathon.org/faq) were checked on November 15, 2026. The public page requires a viewable code/notebook link, write-up, one track, team details and credits; a demo video up to two minutes is optional. The linked Google Drive project-brief PDF still did not expose readable content. Read that complete brief and confirm eligibility, registration, original-work dates and access to every link before submitting. See the [checklist](docs/submission_checklist.md) for verified evidence and remaining manual steps. Full competition compliance is not claimed.
 
-Original code and documentation were created in this session on November 15, 2026. The initial repository contained only a title README. No existing project's implementation or pretrained model was reused. The student must understand and accurately disclose all contributions, verify eligibility and provide their own team details. Nothing is published, submitted or awarded automatically.
+The initial implementation and documentation were added on November 15, 2026 in merged [PR #1](https://github.com/abduzhapparoralhan-spec/pneumoguard-ai-2026-Copy/pull/1). The Colab results archive was subsequently added to `main`. This update continues that project and preserves its implementation and notebook. No third-party project's implementation or pretrained model was reused in the original prototype. The student must understand and accurately disclose all contributions, verify eligibility and provide their own team details. Changes are proposed through a pull request; the competition application is not submitted automatically.
 
 ## Credits
 

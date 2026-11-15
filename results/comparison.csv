@@ -1,0 +1,4 @@
+method,evaluated_n,coverage,accuracy,balanced_accuracy,precision_pneumonia,recall_pneumonia,f1_pneumonia,false_negatives,false_positives,errors
+Majority baseline (all test),624,1.0,0.625,0.5,0.625,1.0,0.7692307692307693,0,234,234
+CNN forced choice (all test),624,1.0,0.8285256410256411,0.7756410256410257,0.7905544147843943,0.9871794871794872,0.8779931584948689,5,102,107
+CNN abstention (automatic subset),624,1.0,0.8285256410256411,0.7756410256410257,0.7905544147843943,0.9871794871794872,0.8779931584948689,5,102,107

@@ -1,0 +1,27 @@
+{
+  "source_repository": "https://github.com/abduzhapparoralhan-spec/pneumoguard-ai-2026-Copy",
+  "source_commit": "6b07589c715e5a9567e678a52924349bf9f7d251",
+  "source_archive": "PneumoGuard_full_20261115T094604_549333Z.zip",
+  "archive_sha256": "4db70b827beba7f0691c183985751d7a4b0339e33f327f56d8ee9b20a8594655",
+  "archive_git_blob_sha": "0ff376c762027a1e57bc7470b95d1dc65f018f9c",
+  "extraction": "All 17 archived files copied byte for byte; no training, inference, threshold changes or figure regeneration.",
+  "archived_files_sha256": {
+    "environment.json": "99884e38738cd6ecf52764984f14e77f83b62ab3101703bc0085c2b174573174",
+    "training_manifest.json": "312faf67232488c5f220444e5b6dd60b8011a9587ba0c6604162140eaa19d2f3",
+    "config.json": "23d0bedd26115087462786f4488acad4fa1f5c2eeb683155aaf0134bb482c1d0",
+    "validation_policy_grid.csv": "6715f085fa30e4e8e1b6affb037d6d749410de859bd59938a29480cc1a2b9208",
+    "report.md": "b4de41ae7e9cabd6889cd5cfaf1d26f152cee9fa62e07f4df557bfb82d830505",
+    "policy.json": "99457ec2fa4e40c98343880ceecb4f382966c48d09b9b57932f453836703bcee",
+    "training_history.csv": "1b3317c92129c008d13746c4c1f38db44786228ba6b188b89e811b27bdb1bc83",
+    "comparison.csv": "a440eab323b27f0e9c042bc5f81e06a0865e85c5085a4c94089ff45716c2d363",
+    "failure_examples.csv": "ccd77d519d6ab663711e6db4bd76e068ff06bf655c054769dcc7c1d9c2f47658",
+    "best_model.pt": "66b825a4b1a216bdf67e237e1f08b84453dcbfa7bfd69f537d6f3562238243d1",
+    "split_manifest.json": "60c8231e70952dabe5d1e8a546859334c9475013301457323ce5630ac702ea3d",
+    "test_predictions.csv": "0ad57cc5c4e7b1789f0d3cec4ee2c83ffb212f11e68d4b08c17cec2a5b3ccc53",
+    "metrics.json": "a4f3c27f73b95ea03d8602e596fdb8938c90cf0a89b4e1d55763d62f3e4bf0b1",
+    "validation_predictions.csv": "ce08bb08275d4864abe951f23812fc670aeed4af76d344c6368b428167955bf2",
+    "figures/confusion_matrices.png": "9c31134748881a3007ac0c624baee4d1e90c271466542ac2d68ddfaffc2a83d6",
+    "figures/training_and_validation_tradeoff.png": "ee0c40ced9d0cb1bc339a42e61639fe63fd2ddf8375b5c7a19de9cdf21b4d24a",
+    "figures/failure_examples.png": "757fc64d596f438bffe4c05e4f38a4b048609f7e197aa35970bed29d0a62ba36"
+  }
+}

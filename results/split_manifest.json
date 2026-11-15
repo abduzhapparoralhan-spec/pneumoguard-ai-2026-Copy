@@ -1,0 +1,52 @@
+{
+  "splits": {
+    "train": {
+      "n": 4708,
+      "shape": [
+        4708,
+        28,
+        28
+      ],
+      "class_counts": {
+        "Normal": 1214,
+        "Pneumonia": 3494
+      },
+      "ids_sha256": "88db0e75e27fc0a5865388ef334f9adbfd6b4f35fb49c2307e0b872ca549eb98",
+      "images_sha256": "4a21a8862308428fe9c3f5d166deee75b02408d6d63483e76b98eb588d172f87"
+    },
+    "val": {
+      "n": 524,
+      "shape": [
+        524,
+        28,
+        28
+      ],
+      "class_counts": {
+        "Normal": 135,
+        "Pneumonia": 389
+      },
+      "ids_sha256": "aa9bf9f6a2b3165de41eb14d93f033adbf625b42e892bfd3b9288fe2b322da8a",
+      "images_sha256": "499b99bb7cc3b2a8654da75b2a19fae443343c6251d46a9c80249930d4f33934"
+    },
+    "test": {
+      "n": 624,
+      "shape": [
+        624,
+        28,
+        28
+      ],
+      "class_counts": {
+        "Normal": 234,
+        "Pneumonia": 390
+      },
+      "ids_sha256": "98d935f48ff27a0a8cce330fb21baf1dac051f441cb0c6ce431889f899a2ea33",
+      "images_sha256": "f936e3b6b29d2ed7a8182dd090c27504a6b7152ce496a960db0169622aabf843"
+    }
+  },
+  "identical_image_hash_overlap": {
+    "train-val": 8,
+    "train-test": 0,
+    "val-test": 0
+  },
+  "patient_independence": "Cannot independently verify: patient IDs are not supplied."
+}
