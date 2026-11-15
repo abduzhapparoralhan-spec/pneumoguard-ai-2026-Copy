@@ -1,0 +1,10 @@
+data/
+.venv/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+*.zip
+results/smoke/
+results/reproduction/
+results/colab_run/
+.DS_Store
