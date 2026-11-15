@@ -1,0 +1,12 @@
+torch>=2.6,<3
+torchvision>=0.21,<1
+medmnist==3.0.2
+numpy>=1.26,<3
+pandas>=2.2,<4
+scikit-learn>=1.5,<2
+matplotlib>=3.8,<4
+ipywidgets>=8.1,<9
+nbformat>=5.10,<6
+nbclient>=0.10,<1
+ipykernel>=6.29,<8
+pytest>=8,<10
